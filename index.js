@@ -33,7 +33,31 @@ const fi = (function() {
       return newCollection
     },
 
-    reduce: function() {
+    reduce: function(collection, callback, acc = 0) {
+      for (let n = 0; n < collection.length; n ++) {
+         acc = callback(acc, collection[n], collection) 
+      }
+      return acc
+    },
+
+    find: function(collection, truthTest) {
+      for (let n = 0; n < collection.length; n ++) {
+      //   truthTest = function(predicate) {
+      //     if (predicate === collection[n]) { return predicate}
+      //     else { return undefined}
+      //   }
+      if(truthTest(collection[n])) { 
+        return collection[n]
+        }
+      }
+      return undefined
+    },
+
+    functions: function() {
+
+    },
+
+    functions: function() {
 
     },
 
