@@ -94,13 +94,46 @@ const fi = (function() {
       return newArr.sort(function(a, b) {return callback(a) - callback(b)})
     },
     
-    flatten: function(arr){
-      let newArr = arr.flat()
+     unpack: function(receiver, arr) {
+      for (let val of arr)
+        receiver.push(val)
+    },
+
+    
+    flatten: function(collection, shallow, newArr=[]) {
+      if (!Array.isArray(collection)) return newArr.push(collection)
+      if (shallow) {
+        for (let val of collection)
+          Array.isArray(val) ? this.unpack(newArr, val) : newArr.push(val)
+      } else {
+        for (let val of collection) {
+          this.flatten(val, false, newArr)
+        }
+      }
       return newArr
     },
+
     
-    uniq: function(arr){
-      return [...new Set(arr)]
+    uniq: function(arr, isSorted=false, callback=false){
+      
+      if(isSorted === true){
+      return [...new Set(arr)]}
+      if(callback === false){
+        return [...new Set(arr)]
+      }
+      if(callback !== false){
+        let uniqArr = []
+        let returns = []
+        for(let i =0; i < arr.length; i++){
+          let modifiedVal = callback(arr[i])
+        if(!uniqArr.includes(modifiedVal)){  
+          returns.push(arr[i])
+          uniqArr.push(modifiedVal)
+        }
+        
+      }
+      return returns
+    }  
 
     },
     
